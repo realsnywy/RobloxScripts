@@ -1,10 +1,12 @@
-local UpdateRate = 1/20
+local UpdateRate = 1 / 20
 
 local HeadRotationRemote = Instance.new("RemoteEvent")
 HeadRotationRemote.Name = "HeadRotationRemote"
 
-local Rotations = setmetatable({}, {__mode = "k"})
-HeadRotationRemote.OnServerEvent:Connect(function (Plr, Rotation)
+local Rotations = setmetatable({}, {
+    __mode = "k"
+})
+HeadRotationRemote.OnServerEvent:Connect(function(Plr, Rotation)
     Rotations[Plr] = Rotation
 end)
 
@@ -22,7 +24,9 @@ function HandleCharacter(Character)
     NewHead.Parent = OldHead.Parent
 
     local OldWeld = Character:FindFirstChild("Neck", true)
-    while not OldWeld do OldWeld = Character:FindFirstChild("Neck", true) end
+    while not OldWeld do
+        OldWeld = Character:FindFirstChild("Neck", true)
+    end
     local NewWeld = OldWeld:Clone()
     NewWeld.Part1 = NewHead
     NewWeld.Name = "NewNeck"
@@ -66,6 +70,8 @@ while wait(UpdateRate) do
             end
         end
 
-        Rotations = setmetatable({}, {__mode = "k"})
+        Rotations = setmetatable({}, {
+            __mode = "k"
+        })
     end
 end

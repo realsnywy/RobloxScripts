@@ -1,4 +1,4 @@
-local UpdateRate = 1/20
+local UpdateRate = 1 / 20
 
 local Players, TweenService = game:GetService("Players"), game:GetService("TweenService")
 local Plr = Players.LocalPlayer
@@ -26,18 +26,23 @@ HeadRotationRemote.OnClientEvent:Connect(function(Rotations)
     for _, Rot in ipairs(Rotations) do
         local Neck = Rot[1].Character and Rot[1].Character:FindFirstChild("Neck", true)
         if Neck then
-            TweenService:Create(Neck, TweenInfo.new(UpdateRate, Enum.EasingStyle.Linear), {C0 = Rot[2]}):Play()
+            TweenService:Create(Neck, TweenInfo.new(UpdateRate, Enum.EasingStyle.Linear), {
+                C0 = Rot[2]
+            }):Play()
         end
     end
 end)
 
 game:GetService("RunService").Stepped:Connect(function()
-    if Root and Neck and workspace.CurrentCamera.CameraSubject and workspace.CurrentCamera.CameraSubject:IsA("Humanoid") and workspace.CurrentCamera.CameraSubject.Parent == Plr.Character then
+    if Root and Neck and workspace.CurrentCamera.CameraSubject and workspace.CurrentCamera.CameraSubject:IsA("Humanoid") and
+        workspace.CurrentCamera.CameraSubject.Parent == Plr.Character then
         local CameraDirection = Root.CFrame:toObjectSpace(workspace.CurrentCamera.CFrame).lookVector.unit
         if R6 then
-            Neck.C0 = CFrame.new(Neck.C0.p) * CFrame.Angles(0, -math.asin(CameraDirection.x), 0) * CFrame.Angles(-math.pi/2 + math.asin(CameraDirection.y), 0, math.pi)
+            Neck.C0 = CFrame.new(Neck.C0.p) * CFrame.Angles(0, -math.asin(CameraDirection.x), 0) *
+                          CFrame.Angles(-math.pi / 2 + math.asin(CameraDirection.y), 0, math.pi)
         else
-            Neck.C0 = CFrame.new(Neck.C0.p) * CFrame.Angles(math.asin(CameraDirection.y), -math.asin(CameraDirection.x), 0)
+            Neck.C0 = CFrame.new(Neck.C0.p) *
+                          CFrame.Angles(math.asin(CameraDirection.y), -math.asin(CameraDirection.x), 0)
         end
     end
 
